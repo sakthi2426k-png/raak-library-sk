@@ -1,0 +1,6 @@
+const SUPABASE_URL = 'https://lelhybegyyosdsjtejoe.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlbGh5YmVneXlvc2RzanRlam9lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4NDQ0NzcsImV4cCI6MjA5NzQyMDQ3N30.00PguB3DXUKPw16pYJ_9a4WEdjmAPl4KAZPIvp3ZY5o';
+window.supabase = supabase.createClient('https://lelhybegyyosdsjtejoe.supabase.co','eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlbGh5YmVneXlvc2RzanRlam9lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE4NDQ0NzcsImV4cCI6MjA5NzQyMDQ3N30.00PguB3DXUKPw16pYJ_9a4WEdjmAPl4KAZPIvp3ZY5o');
+
+console.log("Supabase Global Client Initialized:");
+

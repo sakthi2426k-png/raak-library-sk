@@ -1,0 +1,193 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+}
+
+.container{
+
+    width:95%;
+    max-width:1100px;
+
+    background:rgba(255,255,255,.12);
+    backdrop-filter:blur(15px);
+
+    border-radius:20px;
+
+    padding:35px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
+
+    border:1px solid rgba(255,255,255,.2);
+
+}
+
+h2{
+
+    text-align:center;
+
+    color:white;
+
+    margin-bottom:25px;
+
+    font-size:34px;
+
+    letter-spacing:1px;
+
+}
+
+#searchInput{
+
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:12px;
+
+    margin-bottom:30px;
+
+    font-size:17px;
+
+    background:white;
+
+}
+
+#catalog{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+
+    gap:25px;
+
+}
+
+.book-card{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.18);
+
+    transition:.35s;
+
+}
+
+.book-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 15px 35px rgba(0,0,0,.3);
+
+}
+
+.book-title{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:#0f2027;
+
+    margin-bottom:18px;
+
+}
+
+.book-card input{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-bottom:12px;
+
+    border-radius:10px;
+
+    border:1px solid #ddd;
+
+    font-size:15px;
+
+}
+
+.book-card input:focus{
+
+    border:2px solid #00b894;
+
+}
+
+button{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:10px;
+
+    font-size:17px;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.borrow-btn{
+
+    background:linear-gradient(45deg,#00b894,#00cec9);
+
+}
+
+.borrow-btn:hover{
+
+    transform:scale(1.03);
+
+}
+
+.return-btn{
+
+    background:linear-gradient(45deg,#ff416c,#ff4b2b);
+
+}
+
+.return-btn:hover{
+
+    transform:scale(1.03);
+
+}
+
+@media(max-width:700px){
+
+.container{
+
+padding:20px;
+
+}
+
+h2{
+
+font-size:28px;
+
+}
+
+}

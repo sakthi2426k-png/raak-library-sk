@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Catalog</title>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- External JS -->
+    <script src="script.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="stylestudent.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>📚 Library Catalog</h2>
+
+    <input
+        type="text"
+        id="searchInput"
+        onkeyup="filterBooks()"
+        placeholder="🔍 Search books..."
+    >
+
+    <div id="catalog"></div>
+
+</div>
+
+<script>
+
+let allBooks = [];
+
+async function loadBooks() {
+
+    const { data } = await window.supabase
+        .from('books')
+        .select('*');
+
+    allBooks = data || [];
+
+    displayBooks(allBooks);
+}
+
+function displayBooks(books) {
+
+    const div = document.getElementById("catalog");
+
+    div.innerHTML = "";
+
+    books.forEach(book => {
+
+        const isBorrowed = book.is_borrowed;
+
+        div.innerHTML += `
+
+        <div class="book-card">
+
+            <div class="book-title">
+                📖 ${book.book_name}
+            </div>
+
+            ${
+                !isBorrowed
+                ?
+
+                `
+
+                <input
+                    type="text"
+                    id="name-${book.id}"
+                    placeholder="👤 Student Name"
+                >
+
+                <input
+                    type="text"
+                    id="dept-${book.id}"
+                    placeholder="🏫 Department"
+                >
+
+                <input
+                    type="text"
+                    id="year-${book.id}"
+                    placeholder="🎓 Year"
+                >
+
+                <button
+                    class="borrow-btn"
+                    onclick="borrowBook('${book.id}','${book.book_name}')">
+                    Borrow Book
+                </button>
+
+                `
+
+                :
+
+                `
+
+                <button
+                    class="return-btn"
+                    onclick="returnBook('${book.id}')">
+                    Return Book
+                </button>
+
+                `
+            }
+
+        </div>
+
+        `;
+    });
+
+}
+
+// Borrow Book
+async function borrowBook(id, bookName) {
+
+    const name = document.getElementById(`name-${id}`).value;
+
+    const dept = document.getElementById(`dept-${id}`).value;
+
+    const year = document.getElementById(`year-${id}`).value;
+
+    if (!name || !dept || !year) {
+
+        alert("Please fill in all details!");
+
+        return;
+    }
+
+    await window.supabase
+        .from("transactions")
+        .insert([
+            {
+                book_name: bookName,
+                student_name: name,
+                department: dept,
+                year: year,
+                action: "borrow"
+            }
+        ]);
+
+    await window.supabase
+        .from("books")
+        .update({
+            is_borrowed: true
+        })
+        .eq("id", id);
+
+    alert("✅ Book Borrowed Successfully!");
+
+    loadBooks();
+}
+
+async function returnBook(id) {
+
+    await window.supabase
+        .from("books")
+        .update({
+            is_borrowed: false
+        })
+        .eq("id", id);
+
+    alert("📚 Book Returned Successfully!");
+
+    loadBooks();
+}
+
+function filterBooks() {
+
+    const query = document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const filtered = allBooks.filter(book =>
+        book.book_name.toLowerCase().includes(query)
+    );
+
+    displayBooks(filtered);
+}
+
+loadBooks();
+
+</script>
+
+</body>
+</html>

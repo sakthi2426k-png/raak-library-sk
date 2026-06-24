@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="stylestaff.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>📚 Library Management System</h1>
+
+    <div class="form-card">
+        <h2>Add New Book</h2>
+        <input id="bName" placeholder="Book Name">
+        <input id="aName" placeholder="Author Name">
+        <input id="bId" placeholder="Book ID">
+        <button onclick="saveBook()">Save Book</button>
+    </div>
+
+    <div id="catalog" class="catalog"></div>
+</div>
+
+<script>
+    
+async function checkAuth() {
+    const { data: { session } } = await window.supabase.auth.getSession();
+    if (!session) {
+        window.location.href = 'login.html'; // Kick them back to login if not logged in
+    }
+}
+checkAuth();
+
+   
+    async function loadBooks() {
+        const { data, error } = await window.supabase.from('books').select('*');
+        if (error) console.error("Error loading books:", error);
+        else displayBooks(data);
+    }
+
+    
+    async function saveBook() {
+        const name = document.getElementById('bName').value;
+        const author = document.getElementById('aName').value;
+        const bId = document.getElementById('bId').value;
+        
+        const { error } = await window.supabase.from('books').insert([{ 
+            book_name: name, 
+            author_name: author, 
+            book_id: bId,
+            is_borrowed: false 
+        }]);
+        
+        if (error) {
+            alert("Error: " + error.message);
+        } else {
+            alert("Book added successfully!");
+           
+            document.getElementById('bName').value = '';
+            document.getElementById('aName').value = '';
+            document.getElementById('bId').value = '';
+            loadBooks(); 
+        }
+    }
+
+    function displayBooks(books) {
+        const div = document.getElementById('catalog');
+        div.innerHTML = '';
+        books.forEach(book => {
+            div.innerHTML += `
+                <div class="book-card">
+                    <strong>${book.book_name}</strong> by ${book.author_name} 
+                    <small>(ID: ${book.book_id})</small>
+                </div>`;
+        });
+    }
+
+    loadBooks();
+</script>
+</body>
+</html>
